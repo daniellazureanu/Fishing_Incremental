@@ -1,0 +1,243 @@
+*{
+/*  outline: solid 1px red;*/
+  box-sizing: border-box;
+}
+body, html{
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 99vh;
+  background-color: #0c131d;
+  color: #ffffff;
+}
+
+.fishing-area {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+}
+
+.gameheader {
+  display: flex;
+  height: max-content;
+  font-size: 1rem;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 0;
+  font-weight: bold;
+  border-radius: 1rem;
+  background-color: #202b3d;
+  gap: 1rem;
+}
+
+.upgrades{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 34%;
+  padding: 1rem;
+  background-color: #202b3d;
+  border-radius: 1rem;
+  gap: 1rem;
+}
+
+.upgrade-button{
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  border-radius: 15px;
+  gap: 1rem;
+  font-weight: bold;
+}
+
+.upgrade-button:hover{
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.upgrade-button p{
+  width: 100%;
+}
+
+.upgrade-button img{
+  height: 100%;
+  border-radius: 15px;
+  padding: 5px;
+  image-rendering: pixelated;
+}
+
+.upgrade-button .price{
+  display: flex;
+  align-self: flex-end;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 40%;
+  border-radius:15px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#upgrade-button-1{
+  background-color: #A86523;
+}
+
+#upgrade-button-1 .price{
+  background-color: #E9A319;
+}
+
+#upgrade-button-2{
+  background-color: #3A59D1;
+}
+
+#upgrade-button-2 img{
+  filter: brightness(0) blur(0.5px);
+}
+
+#upgrade-button-2 .price{
+  background-color: #3D90D7;
+}
+
+.location{
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.5rem;
+  font-weight: bold;
+  background-color: #074371;
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+
+
+.fish{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #5aadff;
+  background-color: radial-gradient(circle, rgba(5, 166, 244, 1) 0%, rgba(41, 143, 194, 1) 50%, rgba(11, 109, 158, 1) 100%);
+  height: 100%;
+  width: 32%;
+  padding: 1rem;
+  margin: 0;
+  gap: 1rem;
+  border-radius: 1rem;
+  background-image: url('resources/saltwater.gif');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  text-shadow:
+    -2px -2px 0 black,
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black,
+     0px  2px 0 black,
+     2px  0px 0 black,
+    -2px  0px 0 black,
+     0px -2px 0 black;
+}
+
+.fish img{
+  width: 20%;
+  image-rendering: pixelated;
+  opacity: 0;
+}
+
+.fish img:hover{
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+.fish p{
+  font-size: 1.3rem;
+  margin-bottom: 0px;
+  opacity: 0;
+}
+
+.fish .fish-action{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50%;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.fish-action2{
+  display: flex;
+  width: 100%;
+  height: 50%;
+  justify-content: center;
+  align-items: center;
+  background-color: #022e59;
+  border-radius: 15px;
+  opacity: 0.6;
+}
+
+.fish #progressBar {
+  height: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #eee;
+  accent-color: #50C878;
+  margin-top: 2rem;
+  outline: solid 1px black;
+}
+
+.fish #progressBar::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+.fish #progressBar::-webkit-progress-value {
+  background-color: #50C878; /* Emerald green */
+  border-radius: 10px;
+}
+
+/* Firefox */
+.fish #progressBar::-moz-progress-bar {
+  background-color: #50C878;
+  border-radius: 10px;
+}
+
+.inventory{
+  height: 100%;
+  width: 34%;
+  padding: 1rem;
+  background: #f0cc71;
+  background: linear-gradient(90deg, rgba(240, 204, 113, 1) 0%, rgba(242, 213, 138, 1) 50%, rgba(240, 204, 113, 1) 100%);
+  color: #000000;
+  border-radius: 1rem;
+  font-size: 1.3rem;
+  border: 6px solid #785f23;
+}
+
+.inventory li{
+  list-style-type: none 
+}
+
+.upper-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+button {
+  padding: 8px 16px;
+  margin-left: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #171717;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #424242;
+}
