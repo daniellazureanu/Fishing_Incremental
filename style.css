@@ -55,6 +55,7 @@ body, html{
   border-radius: 15px;
   gap: 1rem;
   font-weight: bold;
+  background-color: rgb(249, 170, 170);
 }
 
 .upgrade-button:hover{
@@ -83,25 +84,26 @@ body, html{
   border-radius:15px;
   font-size: 2rem;
   font-weight: bold;
+  background-color: rgb(246, 80, 80);
 }
 
-#upgrade-button-1{
+#speed_upgrade{
   background-color: #A86523;
 }
 
-#upgrade-button-1 .price{
+#speed_upgrade .price{
   background-color: #E9A319;
 }
 
-#upgrade-button-2{
+#unlock_fish{
   background-color: #3A59D1;
 }
 
-#upgrade-button-2 img{
+#unlock_fish img{
   filter: brightness(0) blur(0.5px);
 }
 
-#upgrade-button-2 .price{
+#unlock_fish .price{
   background-color: #3D90D7;
 }
 
