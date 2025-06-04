@@ -3,37 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Fishing Incremental</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 <body>
   <div class="gameheader">
-  Fishing Incremental 🐟
-  <a href=https://discord.gg/En6kYU25g2>Discord</a>
-  <a href=https://github.com/daniellazureanu>GitHub</a>
+    Fishing Incremental 🐟
+    <a href=https://discord.gg/En6kYU25g2>Discord</a>
+    <a href=https://github.com/daniellazureanu>GitHub</a>
+    <span onclick="resetProgress()">Reset Progress</span>
   </div>
 
   <div class="fishing-area">
 
-    <div class="upgrades">
-      <!--<div id="upgrade-button-1" class="upgrade-button">
-          <img src="resources/Anchovy.png">
-          <p>This upgrade reduces the time necessary for catching a fish</p>
-          <div class="price">$50</div>
-      </div>
-
-      <div id="upgrade-button-2" class="upgrade-button">
-          <img src="resources/Surgeonfish.png">
-          <p>Unlock a new fish</p>
-          <div class="price">$150</div>
-      </div>-->
+    <div class="upgrades">  
     </div>
 
     <div class="fish">
-
       <div class="fish-action">
         <div class=location>
           Location: Salt water
         </div>
+        
         <progress id="progressBar" value="0" max="100" style="width: 80%;"></progress>
         <p id="catchMessage" style="font-weight: bold;">this is the catch message</p>
         <img id="fishImage" src="resources/Anchovy.png">
@@ -46,16 +36,8 @@
     </div>
 
     <div class="inventory">
-      <div class=upper-section>
-        <h3>Inventory</h3>
-        <p style="font-weight: bold;">Money: $<span id="balanceDisplay">0</span></p>
-        <button id="sellButton">Sell All Fish</button>
-      </div>
-
-      <ul id="inventoryList"></ul>
     </div>
-  </div>
 
-  <script src="script.js" defer></script>
+  <script src="script.js?v=1.1" defer></script>
 </body>
 </html>

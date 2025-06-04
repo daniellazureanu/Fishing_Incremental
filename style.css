@@ -25,6 +25,7 @@ body, html{
 .gameheader {
   display: flex;
   height: max-content;
+  align-items: center;
   font-size: 1rem;
   padding: 0.2rem 0.5rem;
   margin-top: 0.5rem;
@@ -35,6 +36,15 @@ body, html{
   border-radius: 1rem;
   background-color: #202b3d;
   gap: 1rem;
+}
+
+.gameheader span{
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.gameheader span:hover{
+  color: #551a8b;
 }
 
 .upgrades{
@@ -87,25 +97,23 @@ body, html{
   background-color: rgb(246, 80, 80);
 }
 
-#speed_upgrade{
+#common-fishing-rod{
   background-color: #A86523;
+  padding-left: 20px;
 }
 
-#speed_upgrade .price{
+#common-fishing-rod .price{
   background-color: #E9A319;
 }
 
-#unlock_fish{
+#common-lure{
   background-color: #3A59D1;
 }
 
-#unlock_fish img{
-  filter: brightness(0) blur(0.5px);
-}
-
-#unlock_fish .price{
+#common-lure .price{
   background-color: #3D90D7;
 }
+
 
 .location{
   display: flex;
@@ -220,18 +228,30 @@ body, html{
   border: 6px solid #785f23;
 }
 
-.inventory li{
-  list-style-type: none 
-}
-
-.upper-section{
+.inventory .top-section{
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+.inventory .inventory-list{
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory .item-container{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.inventory .item-container .fish-icon{
+  width: 30px;
+  image-rendering: pixelated;
+}
+
 button {
   padding: 8px 16px;
-  margin-left: 5px;
   font-size: 1rem;
   cursor: pointer;
   background-color: #171717;
