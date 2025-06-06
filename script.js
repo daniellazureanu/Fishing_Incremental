@@ -61,7 +61,7 @@ let shop = {
     items: [
       {
         name: 'Starter Lure',
-        image: 'resources/CommonLure.png',
+        image: 'resources/StarterLure.png',
         price: 50,
         description: 'Chance of getting trash will be decreased',
         onClick: () => {
