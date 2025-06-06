@@ -1,50 +1,121 @@
+//wipe progress
+if (localStorage.getItem("version") !== "1.0.1") {
+  localStorage.clear(); 
+  localStorage.setItem("version", "1.0.1");
+}
+
 const catchButton = document.querySelector(".fish button");
 const progressBar = document.getElementById("progressBar");
 const catchMessage = document.querySelector(".fish p");
 const sellButton = document.getElementById("sellButton");
-const upgradeContainer = document.querySelector(".upgrades");
-const inventoryContainer = document.querySelector(".inventory");
 const fishImage = document.getElementById('fishImage');
-let inventoryList;
 let balanceDisplay;
-let boughtUpgrades = [];
+let purchasedUpgrades = {};
+let selectedCategory = "rods";
+let multiplier = 1;
+let canUseLures = false;
 
-const upgrades = [
-  {
-    name: "common-lure",
-    image: "resources/RustyCan.png",
-    cost: 50,
-    description: "Chance of getting trash will be decreased considerably",
-    onClick: () => {
-        balanceDisplay.textContent = balance;
-        fishWeights.RustyCan -=20;
-        fishWeights.Worm -=20;
+let shop = {
+  rods: {
+    name: 'Fishing Rods',
+    logo: 'resources/CommonFishRod.png',
+    items: [
+      {
+        name: 'Common Fishing Rod',
+        image: 'resources/CommonFishRod.png',
+        price: 50,
+        description: 'Catch time decreased by 1 second',
+        onClick: () => {
+          duration -= 1000;
 
-        catchMessage.innerHTML = `Lure purchased!`;
-        catchMessage.style.opacity = 1;
-    }
+          catchMessage.innerHTML = `Fishing rod purchased!`;
+          catchMessage.style.opacity = 1;
+        }
+      },
+      {
+        name: 'Uncommon Fishing Rod',
+        image: 'resources/CommonFishRod.png',
+        price: 100,
+        description: 'Unlocks the ability to use lures',
+        onClick: () => {
+          canUseLures = true;
+
+          catchMessage.innerHTML = `Fishing rod purchased!`;
+          catchMessage.style.opacity = 1;
+        }
+      },
+      {
+        name: 'Rare Fishing Rod',
+        image: 'resources/CommonFishRod.png',
+        price: 500,
+        description: '???',
+        onClick: () => {
+          endScreen();
+        }
+      },
+    ]
   },
-  {
-    name: "common-fishing-rod",
-    image: "resources/CommonFishRod.png",
-    cost: 75,
-    description: "The time necessary to catch a fish will be decreased by 1 second",
-    onClick: () => {
-      balanceDisplay.textContent = balance;
-      duration -= 1000;
+  lures: {
+    name: 'Lures',
+    logo: 'resources/StarterLure.png',
+    items: [
+      {
+        name: 'Starter Lure',
+        image: 'resources/CommonLure.png',
+        price: 50,
+        description: 'Chance of getting trash will be decreased',
+        onClick: () => {
+          fishWeights.RustyCan -=10;
 
-      catchMessage.innerHTML = `Fishing rod purchased!`;
-      catchMessage.style.opacity = 1;
-    }
+          catchMessage.innerHTML = `Lure purchased!`;
+          catchMessage.style.opacity = 1;
+        }
+      },
+      {
+        name: 'Lucky Lure',
+        image: 'resources/LuckyLure.png',
+        price: 150,
+        description: 'Chance to catch rare fish increased',
+        onClick: () => {
+          fishWeights.Pufferfish+=10;
+          fishWeights.Surgeonfish+=15;
+
+          catchMessage.innerHTML = `Lure purchased!`;
+          catchMessage.style.opacity = 1;
+        }        
+      },
+      {
+        name: 'Value Lure',
+        image: 'resources/ValueLure.png',
+        price: 200,
+        description: 'Fish will be worth twice as much.',
+        onClick: () => {
+          for(let fish in fishValues){
+            fishValues[fish]*=2;
+          }
+
+          catchMessage.innerHTML = `Lure purchased!`;
+          catchMessage.style.opacity = 1;
+        }        
+      }
+    ]
   },
-];
+  baits: {
+    name: 'Baits',
+    logo: 'resources/Worm.png',
+    items: [
+      {
+        description: 'Work in progress'
+      }
+    ]
+  }
+};
 
 let inventory = {};
 let balance = 0;
 
 const fishValues = {
   RustyCan: 1,
-  Worm: 2,
   Anchovy: 5,
   Clownfish: 10,
   Crab: 8,
@@ -54,7 +125,6 @@ const fishValues = {
 
 const fishWeights = {
   RustyCan: 60,
-  Worm: 60,
   Anchovy: 70,
   Clownfish: 40,
   Crab: 40,
@@ -64,9 +134,9 @@ const fishWeights = {
 
 let duration = 5000;
 
-listUpgrades();
-listInventory();
 loadProgress();
+listShop();
+listInventory();
 
 catchButton.addEventListener("click", () => {
   catchMessage.style.opacity = 0;
@@ -104,7 +174,7 @@ function getRandomFish() {
 
   inventory[randomFish] = (inventory[randomFish] || 0) + 1;
 
-  updateInventoryDisplay();
+  updateInventoryContent();
 
   catchMessage.innerHTML = `You've caught a ${randomFish}!`;
   catchMessage.style.opacity = 1;
@@ -115,7 +185,50 @@ function getRandomFish() {
   saveProgress();
 }
 
-function updateInventoryDisplay() {
+function updateShopCategoryContent(){
+  categoryItems.innerHTML = '';
+
+  shop[selectedCategory].items.forEach(item => {
+    if (purchasedUpgrades[item.name]) return;
+
+    const categoryItem = document.createElement("div");
+    categoryItem.className = "item";
+    categoryItem.id = item.name;
+
+    const itemImage = document.createElement("img");
+    itemImage.className = "image";
+    itemImage.src = item.image;
+
+    const itemDescriptionContainer = document.createElement("div");
+    itemDescriptionContainer.className = "description-container";
+
+    const itemName = document.createElement("div");
+    itemName.className = "name";
+    itemName.textContent = item.name;
+
+    const itemDescription = document.createElement("div");
+    itemDescription.className = "description";
+    itemDescription.textContent = item.description;
+
+    const itemPrice = document.createElement("div");
+    itemPrice.className = "price";
+    itemPrice.textContent = `$${item.price}`;
+
+    categoryItem.appendChild(itemImage);
+    categoryItem.appendChild(itemDescriptionContainer);
+    itemDescriptionContainer.appendChild(itemName)
+    itemDescriptionContainer.appendChild(itemDescription);
+    categoryItem.appendChild(itemPrice);
+
+    categoryItems.appendChild(categoryItem);
+
+    itemPrice.addEventListener("click", () => {
+      buyItem(item.name);
+    });
+  });
+}
+
+function updateInventoryContent() {
   inventoryList.innerHTML = '';
 
   for (let fish in inventory) {
@@ -145,14 +258,14 @@ function sellFish(){
     let total = 0;
 
     for (let fish in inventory) {
-      total += (fishValues[fish] || 0) * inventory[fish];
+      total += (fishValues[fish] * multiplier || 0) * inventory[fish];
     }
 
     balance += total;
     balanceDisplay.textContent = balance;
 
     inventory = {};
-    updateInventoryDisplay();
+    updateInventoryContent();
 
     catchMessage.innerHTML = `You sold all your fish for $${total}!`;
     catchMessage.style.opacity = 1;
@@ -164,31 +277,65 @@ function sellFish(){
   }
 }
 
-function upgradeOnClick(upgrade) {
+function buyItem(itemName) {
+  for (let category in shop) {
+    const item = shop[category].items.find(i => i.name === itemName);
 
-  if (balance >= upgrade.cost) {
-    balance -= upgrade.cost;
-    balanceDisplay.textContent = balance;
-    upgrade.onClick();
+    if (item && !purchasedUpgrades[item.name]) {
+      if (balance >= item.price) {
+        balance -= item.price;
+        purchasedUpgrades[item.name] = true;
+        balanceDisplay.textContent = balance;
 
-    boughtUpgrades.push(upgrade.name);
+        if (item.onClick) {
+          item.onClick();
+        }
 
-    upgradeContainer.removeChild(document.getElementById(upgrade.name));
+        const itemElement = document.getElementById(item.name);
+        if (itemElement) itemElement.remove();
+
+        saveProgress();
+      } else {
+        catchMessage.innerHTML = "Not enough money!";
+        catchMessage.style.opacity = 1;
+      }
+    }
   }
 
-  saveProgress();
+  updateShopCategoryContent();
+  updateInventoryContent();
+}
+
+function selectCategory(p_category){
+  if(p_category == "lures" && !canUseLures){
+    catchMessage.innerHTML = "You can not use lures yet!";
+    catchMessage.style.opacity = 1;
+  }
+  //WIP MESSAGE FOR BAITS CATEGORY (DELETE WHEN IMPLEMENTED)
+  else if(p_category == "baits"){
+    categoryItems.innerHTML = '';
+    const wipMessage = document.createElement("div");
+    wipMessage.textContent = "work in progress";
+    wipMessage.style = "text-align: center; font-size: 2rem; background-color: #f1d384; color: #000000; border-radius: 15px; padding: 1rem;";
+    categoryItems.appendChild(wipMessage);
+  }
+  /////////////////////////////////////////////////////////
+  else{
+    selectedCategory = p_category;
+    updateShopCategoryContent();
+  }
 }
 
 function saveProgress() {
   localStorage.setItem("inventory", JSON.stringify(inventory));
   localStorage.setItem("balance", balance.toString());
-  localStorage.setItem("boughtUpgrades", JSON.stringify(boughtUpgrades));
+  localStorage.setItem("purchasedUpgrades", JSON.stringify(purchasedUpgrades));
 }
 
 function loadProgress() {
   const savedInventory = localStorage.getItem("inventory");
   const savedBalance = localStorage.getItem("balance");
-  const savedUpgrades = localStorage.getItem("boughtUpgrades");
+  const savedPurchasedUpgrades = localStorage.getItem("purchasedUpgrades");
 
   if (savedInventory) {
     inventory = JSON.parse(savedInventory);
@@ -198,25 +345,21 @@ function loadProgress() {
     balance = parseInt(savedBalance, 10);
   }
 
-  if (savedUpgrades) {
-    boughtUpgrades = JSON.parse(savedUpgrades);
-  }
+  if (savedPurchasedUpgrades) {
+    purchasedUpgrades = JSON.parse(savedPurchasedUpgrades);
 
-  boughtUpgrades.forEach(upgradeName => {
-    const upgrade = upgrades.find(u => u.name === upgradeName);
-    if (upgrade) {
-      const upgradeElement = document.getElementById(upgrade.name);
-      if (upgradeElement) {
-        upgradeContainer.removeChild(upgradeElement);
+    //aplicare efecte la upgradeurile cumparate
+    for (let category in shop) {
+      for (let item of shop[category].items) {
+        if (purchasedUpgrades[item.name] && item.onClick) {
+          item.onClick();
+        }
       }
-      upgrade.onClick();
     }
-  });
+  }
 
   catchMessage.style.opacity = 0;
   fishImage.style.opacity = 0;
-
-  updateInventoryDisplay();
 }
 
 function resetProgress() {
@@ -224,36 +367,55 @@ function resetProgress() {
   location.reload();
 }
 
+function listShop(){
+  const shopContainer = document.querySelector(".shop");
+  shopContainer.innerHTML = '';
 
-function listUpgrades() {
-  upgrades.forEach(upgrade => {
-    const upgradeButton = document.createElement("div");
-    upgradeButton.id = upgrade.name;
-    upgradeButton.className = "upgrade-button";
-    
-    const upgradeImage = document.createElement("img");
-    upgradeImage.src = upgrade.image;
-    upgradeImage.alt = upgrade.name;
-    upgradeButton.appendChild(upgradeImage);
+  const shopTopSection = document.createElement("div");
+  shopTopSection.className = "top-section";
 
-    const upgradeTitle = document.createElement("p");
-    upgradeTitle.className = "upgrade-title";
-    upgradeTitle.textContent = upgrade.description;
-    upgradeButton.appendChild(upgradeTitle);
+  const shopTitle = document.createElement("div");
+  shopTitle.textContent = "Shop";
 
-    const upgradeCost = document.createElement("div");
-    upgradeCost.className = "price";
-    upgradeCost.textContent = `$${upgrade.cost}`;
-    upgradeButton.appendChild(upgradeCost);
+  const shopCategories = document.createElement("div");
+  shopCategories.className = "categories";
 
-    upgradeButton.title = upgrade.description;
-    upgradeButton.addEventListener("click", () => {upgradeOnClick(upgrade)});
-    
-    upgradeContainer.appendChild(upgradeButton);
-  });
+  categoryItems = document.createElement("div");
+  categoryItems.className = "item-list";
+  categoryItems.id = selectedCategory;
+
+  shopContainer.appendChild(shopTopSection);
+  shopTopSection.appendChild(shopTitle);
+  shopContainer.appendChild(shopCategories);
+  shopContainer.appendChild(categoryItems);
+
+  for (let category in shop){
+    const categoryButton = document.createElement("button");
+    categoryButton.id = shop[category].name;
+    const buttonImage = document.createElement("img");
+    const buttonTitle = document.createElement("div");
+    buttonTitle.className = "title";
+
+    buttonImage.src = shop[category].logo;
+    buttonTitle.textContent = shop[category].name;
+
+    categoryButton.appendChild(buttonImage);
+    categoryButton.appendChild(buttonTitle);
+
+    shopCategories.appendChild(categoryButton);
+
+    categoryButton.addEventListener("click", () => {
+      selectCategory(category);
+    });
+  }
+
+  updateShopCategoryContent();
 }
 
 function listInventory(){
+  const inventoryContainer = document.querySelector(".inventory");
+  inventoryContainer.innerHTML = '';
+
   const inventoryTopSection = document.createElement("div");
   inventoryTopSection.className = "top-section";
 
@@ -281,5 +443,22 @@ function listInventory(){
 
   inventorySellButton.addEventListener("click", sellFish);
 
-  updateInventoryDisplay();
+  updateInventoryContent();
+}
+
+function endScreen(){
+  const endScreen = document.body;
+  endScreen.className = "end-screen";
+  endScreen.textContent = '';
+
+  const endMessage = document.createElement("div");
+  endMessage.textContent = "You finished the game!";
+
+  const resetButton = document.createElement("button");
+  resetButton.textContent="Play again!";
+
+  endScreen.appendChild(endMessage);
+  endScreen.appendChild(resetButton);
+
+  resetButton.addEventListener("click", resetProgress);
 }

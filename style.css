@@ -47,73 +47,160 @@ body, html{
   color: #551a8b;
 }
 
-.upgrades{
+.shop{
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 34%;
   padding: 1rem;
-  background-color: #202b3d;
-  border-radius: 1rem;
-  gap: 1rem;
-}
-
-.upgrade-button{
-  display: flex;
-  align-items: center;
-  height: 4rem;
-  border-radius: 15px;
-  gap: 1rem;
-  font-weight: bold;
-  background-color: rgb(249, 170, 170);
-}
-
-.upgrade-button:hover{
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-.upgrade-button p{
-  width: 100%;
-}
-
-.upgrade-button img{
-  height: 100%;
-  border-radius: 15px;
-  padding: 5px;
+  background-image: url('resources/upgradesbg.png');
+  background-position-y: -8px;
+  background-position-x: -10px;
   image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-size: 140% auto;
+  border-radius: 1rem;
+  border: 6px solid #3d3012;
+  gap: 1rem;
 }
 
-.upgrade-button .price{
-  display: flex;
-  align-self: flex-end;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 40%;
-  border-radius:15px;
+.shop .top-section{
+  text-align: center;
   font-size: 2rem;
+  background: #f0cc71;
+  background: linear-gradient(90deg, rgba(240, 204, 113, 1) 0%, rgba(242, 213, 138, 1) 50%, rgba(240, 204, 113, 1) 100%);
+  color: #000000;
   font-weight: bold;
-  background-color: rgb(246, 80, 80);
+  border-radius: 15px;
+  border: 2px solid #000000;
+  padding: 0.3rem;
 }
 
-#common-fishing-rod{
-  background-color: #A86523;
-  padding-left: 20px;
+.shop .categories{
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+/*  background-color: #fff;*/
 }
 
-#common-fishing-rod .price{
-  background-color: #E9A319;
+.shop .categories button{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: #9b6d4b;
+  border: 3px solid #3d3012;
+  color: #191919;
+  font-weight: bold;
+  border-radius: 5px;
 }
 
-#common-lure{
-  background-color: #3A59D1;
+.shop .categories button:hover{
+  opacity: 0.9;
+  background-color: #f1cf78;
 }
 
-#common-lure .price{
-  background-color: #3D90D7;
+.shop .categories button img{
+  height: 1.5rem;
 }
 
+.shop .item-list{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.shop .item-list .item{
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  border-radius: 15px;
+  gap: 0.5rem;
+  font-weight: bold;
+  background-color: #6c4c34;
+  border: 4px solid #3d3012;
+}
+
+.shop .item-list .item .image{
+  width: 20%;
+  image-rendering: pixelated;
+  padding: 1rem;
+}
+
+.shop .item-list .item .description-container{
+  display: flex;
+  height: 80%;
+  width: 60%;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.3rem;
+}
+
+.shop .item-list .item .description-container .name{
+  border-radius: 15px;
+  text-align: center;
+
+  background-color: #A0A0A0;
+  color: #000000;
+}
+
+/*.shop .item-list .item .description-container .description{
+  overflow-y: auto;
+}*/
+
+#Common\ Fishing\ Rod .name{
+  background-color: #A0A0A0;
+  color: #000000;
+}
+
+#Uncommon\ Fishing\ Rod .name{
+  background-color: #afcfee;
+  color: #000000;
+}
+
+#Uncommon\ Fishing\ Rod .image{
+  filter: hue-rotate(210deg);
+}
+
+#Rare\ Fishing\ Rod .name{
+  background-color: #c767bc;
+}
+
+#Rare\ Fishing\ Rod .image{
+  filter: hue-rotate(280deg);  
+}
+
+#Starter\ Lure .name{
+  background-color: #0464d3;
+  color: #ffffff;  
+}
+
+#Lucky\ Lure .name{
+  background-color: #ffca0c;
+  color: #000000;
+}
+
+.shop .item-list .item .price{
+  display: flex;
+  height: 100%;
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: #9b6d4b;
+  border-radius: 15px;
+}
+
+.shop .item-list .item .price:hover{
+  cursor: pointer;
+  opacity: 0.9;
+  background-color: #f1cf78;
+}
 
 .location{
   display: flex;
@@ -262,4 +349,22 @@ button {
 
 button:hover {
   background-color: #424242;
+}
+
+.end-screen{
+  display: flex;
+  flex-direction: column;
+  height: 99vh;
+  margin: 0;
+  padding: 0;
+  font-size: 5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.end-screen button{
+  font-size: 3rem;
+  background-color: #ffffff;
+  color: #000000;
 }
