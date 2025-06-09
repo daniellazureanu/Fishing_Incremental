@@ -5,54 +5,75 @@
 body, html{
   display: flex;
   flex-direction: column;
-  font-family: Arial, sans-serif;
+  font-family: "Rubik", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
-  height: 99vh;
+  height: 100vh;
   background-color: #0c131d;
   color: #ffffff;
 }
 
-.fishing-area {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  padding: 0.5rem 1rem;
-  gap: 1rem;
-}
-
-.gameheader {
+.header {
   display: flex;
   height: max-content;
   align-items: center;
-  font-size: 1rem;
+  font-size: clamp(1rem, 1.2vw, 1.5rem);
   padding: 0.2rem 0.5rem;
   margin-top: 0.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 0;
-  font-weight: bold;
+  font-weight: 500;
   border-radius: 1rem;
   background-color: #202b3d;
   gap: 1rem;
 }
 
-.gameheader span{
+.header span{
   margin-left: auto;
   cursor: pointer;
 }
 
-.gameheader span:hover{
+.header span:hover{
   color: #551a8b;
+}
+
+.game {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
 }
 
 .shop{
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 34%;
-  padding: 1rem;
+  width: 34vw;
+  gap: 1rem;
+}
+
+.shop .top-section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10%;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  background: #f0cc71;
+  background: linear-gradient(90deg, rgba(240, 204, 113, 1) 0%, rgba(242, 213, 138, 1) 50%, rgba(240, 204, 113, 1) 100%);
+  color: #000000;
+  font-weight: 500;
+  border: 2px solid #000000;
+  border-radius: 15px;
+}
+
+.shop .buy-section{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   background-image: url('resources/upgradesbg.png');
   background-position-y: -8px;
   background-position-x: -10px;
@@ -61,30 +82,17 @@ body, html{
   background-size: 140% auto;
   border-radius: 1rem;
   border: 6px solid #3d3012;
-  gap: 1rem;
-}
-
-.shop .top-section{
-  text-align: center;
-  font-size: 2rem;
-  background: #f0cc71;
-  background: linear-gradient(90deg, rgba(240, 204, 113, 1) 0%, rgba(242, 213, 138, 1) 50%, rgba(240, 204, 113, 1) 100%);
-  color: #000000;
-  font-weight: bold;
-  border-radius: 15px;
-  border: 2px solid #000000;
-  padding: 0.3rem;
+  padding: 1rem;
 }
 
 .shop .categories{
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
   gap: 0.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   width: 100%;
-/*  background-color: #fff;*/
 }
 
 .shop .categories button{
@@ -94,7 +102,7 @@ body, html{
   background-color: #9b6d4b;
   border: 3px solid #3d3012;
   color: #191919;
-  font-weight: bold;
+  font-weight: 600;
   border-radius: 5px;
 }
 
@@ -116,16 +124,16 @@ body, html{
 .shop .item-list .item{
   display: flex;
   align-items: center;
-  height: 5rem;
+  height: 6rem;
   border-radius: 15px;
   gap: 0.5rem;
-  font-weight: bold;
+  font-weight: 500;
   background-color: #6c4c34;
   border: 4px solid #3d3012;
 }
 
 .shop .item-list .item .image{
-  width: 20%;
+  height: 100%;
   image-rendering: pixelated;
   padding: 1rem;
 }
@@ -145,11 +153,13 @@ body, html{
 
   background-color: #A0A0A0;
   color: #000000;
+
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
 }
 
-/*.shop .item-list .item .description-container .description{
-  overflow-y: auto;
-}*/
+.shop .item-list .item .description-container .description{
+  font-size: clamp(0.9rem, 1vw, 1.1rem);
+}
 
 #Common\ Fishing\ Rod .name{
   background-color: #A0A0A0;
@@ -190,8 +200,8 @@ body, html{
   align-items: center;
   justify-content: center;
   padding: 0 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 500;
   background-color: #9b6d4b;
   border-radius: 15px;
 }
@@ -202,26 +212,14 @@ body, html{
   background-color: #f1cf78;
 }
 
-.location{
-  display: flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: 0.5rem;
-  font-weight: bold;
-  background-color: #074371;
-  border-radius: 15px;
-  padding: 0.5rem;
-}
-
-
-.fish{
+.fishing-area{
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #5aadff;
   background-color: radial-gradient(circle, rgba(5, 166, 244, 1) 0%, rgba(41, 143, 194, 1) 50%, rgba(11, 109, 158, 1) 100%);
   height: 100%;
-  width: 32%;
+  width: 32vw;
   padding: 1rem;
   margin: 0;
   gap: 1rem;
@@ -240,24 +238,7 @@ body, html{
      0px -2px 0 black;
 }
 
-.fish img{
-  width: 20%;
-  image-rendering: pixelated;
-  opacity: 0;
-}
-
-.fish img:hover{
-  cursor: pointer;
-  transform: scale(1.01);
-}
-
-.fish p{
-  font-size: 1.3rem;
-  margin-bottom: 0px;
-  opacity: 0;
-}
-
-.fish .fish-action{
+.fishing-area .fish-action{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -266,7 +247,70 @@ body, html{
   gap: 0.5rem;
 }
 
-.fish-action2{
+.fishing-area .fish-action .location{
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.5rem;
+  font-weight: 500;
+  background-color: #074371;
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+
+.fishing-area .fish-action #progressBar {
+  height: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #eee;
+  accent-color: #50C878;
+  margin-top: 2rem;
+  outline: solid 1px black;
+}
+
+.fishing-area .fish-action #progressBar::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+.fishing-area .fish-action #progressBar::-webkit-progress-value {
+  background-color: #50C878; /* Emerald green */
+  border-radius: 10px;
+}
+
+/* Firefox */
+.fishing-area .fish-action #progressBar::-moz-progress-bar {
+  background-color: #50C878;
+  border-radius: 10px;
+}
+
+.fishing-area .fish-action p{
+  font-size: clamp(1.3rem, 1.5vw, 1.7rem);
+  margin-bottom: 0px;
+  opacity: 0;
+}
+
+.fishing-area .fish-action img{
+  width: 20%;
+  image-rendering: pixelated;
+  opacity: 0;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  cursor: pointer;
+  background-color: #171717;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #424242;
+}
+
+.fishing-area .fish-action2{
   display: flex;
   width: 100%;
   height: 50%;
@@ -277,41 +321,18 @@ body, html{
   opacity: 0.6;
 }
 
-.fish #progressBar {
-  height: 30px;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: #eee;
-  accent-color: #50C878;
-  margin-top: 2rem;
-  outline: solid 1px black;
-}
-
-.fish #progressBar::-webkit-progress-bar {
-  background-color: #eee;
-  border-radius: 10px;
-}
-
-.fish #progressBar::-webkit-progress-value {
-  background-color: #50C878; /* Emerald green */
-  border-radius: 10px;
-}
-
-/* Firefox */
-.fish #progressBar::-moz-progress-bar {
-  background-color: #50C878;
-  border-radius: 10px;
-}
-
 .inventory{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   height: 100%;
-  width: 34%;
+  width: 34vw;
   padding: 1rem;
   background: #f0cc71;
   background: linear-gradient(90deg, rgba(240, 204, 113, 1) 0%, rgba(242, 213, 138, 1) 50%, rgba(240, 204, 113, 1) 100%);
   color: #000000;
   border-radius: 1rem;
-  font-size: 1.3rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.6rem);
   border: 6px solid #785f23;
 }
 
@@ -321,34 +342,56 @@ body, html{
   align-items: center;
 }
 
-.inventory .inventory-list{
-  display: flex;
-  flex-direction: column;
+.inventory .top-section .title{
+  font-size: clamp(1.8rem, 2vw, 2.6rem);
+  font-weight: 500;
 }
 
-.inventory .item-container{
-  display: flex;
+.inventory .inventory-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 70px);
   gap: 5px;
+}
+
+.inventory .inventory-list .item-container{
+  display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 70px;
+  height: 70px; 
+  background-color: #fdc175;
+  border: 5px solid #8f4212;
+  box-sizing: border-box;
 }
 
 .inventory .item-container .fish-icon{
-  width: 30px;
+  width: 80%;
+  height: 80%;
   image-rendering: pixelated;
 }
 
-button {
-  padding: 8px 16px;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: #171717;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.inventory .item-container .fish-icon:hover{
+  scale: 1.1;
 }
 
-button:hover {
-  background-color: #424242;
+.inventory .item-container .fish-count{
+  position: absolute;
+  bottom: -10px;
+  right: -5px;
+  color: white;
+  font-size: 1.35rem;
+  border-radius: 4px;
+  z-index: 10;
+  text-shadow:
+    -2px -2px 0 black,
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black,
+     0px  2px 0 black,
+     2px  0px 0 black,
+    -2px  0px 0 black,
+     0px -2px 0 black;
 }
 
 .end-screen{

@@ -1,12 +1,12 @@
 //wipe progress
-if (localStorage.getItem("version") !== "1.0.1") {
+if (localStorage.getItem("version") !== "1.0.2") {
   localStorage.clear(); 
-  localStorage.setItem("version", "1.0.1");
+  localStorage.setItem("version", "1.0.2");
 }
 
-const catchButton = document.querySelector(".fish button");
+const catchButton = document.querySelector(".fishing-area button");
 const progressBar = document.getElementById("progressBar");
-const catchMessage = document.querySelector(".fish p");
+const catchMessage = document.querySelector(".fishing-area p");
 const sellButton = document.getElementById("sellButton");
 const fishImage = document.getElementById('fishImage');
 let balanceDisplay;
@@ -77,8 +77,8 @@ let shop = {
         price: 150,
         description: 'Chance to catch rare fish increased',
         onClick: () => {
-          fishWeights.Pufferfish+=10;
-          fishWeights.Surgeonfish+=15;
+          fishWeights.Pufferfish+=20;
+          fishWeights.Surgeonfish+=20;
 
           catchMessage.innerHTML = `Lure purchased!`;
           catchMessage.style.opacity = 1;
@@ -116,21 +116,24 @@ let balance = 0;
 
 const fishValues = {
   RustyCan: 1,
-  Anchovy: 5,
-  Clownfish: 10,
-  Crab: 8,
+  Tuna: 8,
+  Anchovy: 3,
+  Clownfish: 15,
+  Crab: 12,
   Pufferfish: 100,
   Surgeonfish: 50
 };
 
 const fishWeights = {
-  RustyCan: 60,
-  Anchovy: 70,
-  Clownfish: 40,
+  RustyCan: 30,
+  Anchovy: 80,
+  Tuna: 30,
+  Clownfish: 50,
   Crab: 40,
-  Surgeonfish: 1,
-  Pufferfish: 1
+  Surgeonfish: 10,
+  Pufferfish: 10
 };
+
 
 let duration = 5000;
 
@@ -239,20 +242,44 @@ function updateInventoryContent() {
 
     const fishIcon = document.createElement("img");
     fishIcon.src = `resources/${fish}.png`;
+    fishIcon.title = `${fish}\nValue: $${fishValues[fish]}`;
     fishIcon.className = "fish-icon";
 
     const fishAmmount = document.createElement("span");
-    fishAmmount.textContent = `${fish} x${count} ($${fishValues[fish] * count})`;
+    fishAmmount.className = "fish-count";
+    fishAmmount.textContent = `${count}`;
 
     itemContainer.appendChild(fishIcon);
     itemContainer.appendChild(fishAmmount);
     inventoryList.appendChild(itemContainer);
+
+    itemContainer.addEventListener("click", () => {
+      sellAFish(fish);
+    });
   }
 
   balanceDisplay.textContent = balance;
 }
 
-function sellFish(){
+function sellAFish(fish){
+    inventory[fish]--;
+
+    balance += (fishValues[fish] * multiplier);
+
+    if (inventory[fish] === 0) {
+      delete inventory[fish];
+    }
+
+    updateInventoryContent();
+
+    catchMessage.innerHTML = `You sold one ${fish} for $${fishValues[fish] * multiplier}!`;
+    catchMessage.style.opacity = 1;
+    balanceDisplay.textContent = balance;
+
+    saveProgress();    
+}
+
+function sellAllFish(){
 
   if(!(Object.keys(inventory).length === 0)){
     let total = 0;
@@ -377,6 +404,9 @@ function listShop(){
   const shopTitle = document.createElement("div");
   shopTitle.textContent = "Shop";
 
+  const buySection = document.createElement("div");
+  buySection.className = "buy-section";
+
   const shopCategories = document.createElement("div");
   shopCategories.className = "categories";
 
@@ -386,8 +416,9 @@ function listShop(){
 
   shopContainer.appendChild(shopTopSection);
   shopTopSection.appendChild(shopTitle);
-  shopContainer.appendChild(shopCategories);
-  shopContainer.appendChild(categoryItems);
+  buySection.appendChild(shopCategories);
+  buySection.appendChild(categoryItems);
+  shopContainer.appendChild(buySection);
 
   for (let category in shop){
     const categoryButton = document.createElement("button");
@@ -419,7 +450,8 @@ function listInventory(){
   const inventoryTopSection = document.createElement("div");
   inventoryTopSection.className = "top-section";
 
-  const inventoryTitle = document.createElement("h3");
+  const inventoryTitle = document.createElement("div");
+  inventoryTitle.className = "title";
   inventoryTitle.textContent = "Inventory";
 
   const inventoryBalance = document.createElement("p");
@@ -441,7 +473,7 @@ function listInventory(){
 
   balanceDisplay = document.getElementById("balance-display");
 
-  inventorySellButton.addEventListener("click", sellFish);
+  inventorySellButton.addEventListener("click", sellAllFish);
 
   updateInventoryContent();
 }
