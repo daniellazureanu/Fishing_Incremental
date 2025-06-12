@@ -138,7 +138,7 @@ const fishWeights = {
 };
 
 
-let duration = 100;
+let duration = 5000;
 
 loadProgress();
 listShop();
