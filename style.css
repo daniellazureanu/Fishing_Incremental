@@ -42,18 +42,21 @@ body, html{
 
 .game {
   display: flex;
+  flex-wrap: 1;
   height: 100vh;
   width: 100vw;
   padding: 0.5rem 1rem;
   gap: 1rem;
+  overflow: hidden;
 }
 
 .shop{
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 34vw;
+  width: 34%;
   gap: 1rem;
+  overflow: auto;
 }
 
 .shop .top-section{
@@ -75,11 +78,12 @@ body, html{
   flex-direction: column;
   flex-grow: 1;
   background-image: url('resources/upgradesbg.png');
-  background-position-y: -8px;
-  background-position-x: -10px;
+  background-position-y: -10px;
+  background-position-x: -15px;
+  background-size: cover;
   image-rendering: pixelated;
   background-repeat: no-repeat;
-  background-size: 140% auto;
+  background-size: 140% 140%;
   border-radius: 1rem;
   border: 6px solid #3d3012;
   padding: 1rem;
@@ -93,6 +97,7 @@ body, html{
   padding-top: 1rem;
   padding-bottom: 1rem;
   width: 100%;
+  overflow: auto;
 }
 
 .shop .categories button{
@@ -124,7 +129,7 @@ body, html{
 .shop .item-list .item{
   display: flex;
   align-items: center;
-  height: 6rem;
+  height: 5.5rem;
   border-radius: 15px;
   gap: 0.5rem;
   font-weight: 500;
@@ -216,17 +221,8 @@ body, html{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #5aadff;
-  background-color: radial-gradient(circle, rgba(5, 166, 244, 1) 0%, rgba(41, 143, 194, 1) 50%, rgba(11, 109, 158, 1) 100%);
-  height: 100%;
-  width: 32vw;
-  padding: 1rem;
-  margin: 0;
-  gap: 1rem;
-  border-radius: 1rem;
-  background-image: url('resources/saltwater.gif');
-  background-repeat: no-repeat;
-  background-size: 100% auto;
+  height: auto;
+  width: 32%;
   text-shadow:
     -2px -2px 0 black,
      2px -2px 0 black,
@@ -236,15 +232,24 @@ body, html{
      2px  0px 0 black,
     -2px  0px 0 black,
      0px -2px 0 black;
+  overflow: auto;
 }
 
 .fishing-area .fish-action{
   display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
   flex-direction: column;
+  background-image: url('resources/saltwater.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
   align-items: center;
-  height: 50%;
   width: 100%;
+  height: 50%;
   gap: 0.5rem;
+  padding: 1rem;
 }
 
 .fishing-area .fish-action .location{
@@ -291,14 +296,15 @@ body, html{
 }
 
 .fishing-area .fish-action img{
-  width: 20%;
+  height: clamp(50px, 10vh, 100px);
+  width: auto;
   image-rendering: pixelated;
   opacity: 0;
 }
 
 button {
   padding: 8px 16px;
-  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  font-size: clamp(1.25rem, 2vw, 1.25rem);
   cursor: pointer;
   background-color: #171717;
   color: white;
@@ -317,8 +323,9 @@ button:hover {
   justify-content: center;
   align-items: center;
   background-color: #022e59;
-  border-radius: 15px;
-  opacity: 0.6;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  opacity: 0.7;
 }
 
 .inventory{
@@ -326,7 +333,7 @@ button:hover {
   flex-direction: column;
   gap: 1rem;
   height: 100%;
-  width: 34vw;
+  width: 34%;
   padding: 1rem;
   background: #f0cc71;
   background: linear-gradient(90deg, rgba(240, 204, 113, 1) 0%, rgba(242, 213, 138, 1) 50%, rgba(240, 204, 113, 1) 100%);
@@ -334,6 +341,7 @@ button:hover {
   border-radius: 1rem;
   font-size: clamp(1.2rem, 1.5vw, 1.6rem);
   border: 6px solid #785f23;
+  overflow: auto;
 }
 
 .inventory .top-section{
@@ -349,7 +357,8 @@ button:hover {
 
 .inventory .inventory-list{
   display: grid;
-  grid-template-columns: repeat(auto-fill, 70px);
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fill, 15%);
   gap: 5px;
 }
 
@@ -358,16 +367,26 @@ button:hover {
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 70px;
-  height: 70px; 
   background-color: #fdc175;
-  border: 5px solid #8f4212;
+  border: 0.3rem solid #8f4212;
   box-sizing: border-box;
+  border-radius: 10px;
+  padding: 5px
+}
+
+.inventory .inventory-list .item-container:empty {
+  position: relative;
+}
+
+.inventory .inventory-list .item-container:empty::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
 }
 
 .inventory .item-container .fish-icon{
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   image-rendering: pixelated;
 }
 
@@ -410,4 +429,9 @@ button:hover {
   font-size: 3rem;
   background-color: #ffffff;
   color: #000000;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }

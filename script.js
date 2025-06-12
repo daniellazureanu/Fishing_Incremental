@@ -9,11 +9,14 @@ const progressBar = document.getElementById("progressBar");
 const catchMessage = document.querySelector(".fishing-area p");
 const sellButton = document.getElementById("sellButton");
 const fishImage = document.getElementById('fishImage');
+
 let balanceDisplay;
 let purchasedUpgrades = {};
 let selectedCategory = "rods";
 let multiplier = 1;
 let canUseLures = false;
+
+const INVENTORY_SIZE = 42;
 
 let shop = {
   rods: {
@@ -135,7 +138,7 @@ const fishWeights = {
 };
 
 
-let duration = 5000;
+let duration = 100;
 
 loadProgress();
 listShop();
@@ -256,6 +259,16 @@ function updateInventoryContent() {
     itemContainer.addEventListener("click", () => {
       sellAFish(fish);
     });
+  }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *    STUPID WORKAROUND TO RENDER THE REMAINING EMPTY SLOTS    *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  for(let i = 0; i < INVENTORY_SIZE - Object.keys(inventory).length; i++){
+    const remainingSlots = document.createElement("div");
+    remainingSlots.className ="item-container";
+
+    inventoryList.appendChild(remainingSlots);
   }
 
   balanceDisplay.textContent = balance;
