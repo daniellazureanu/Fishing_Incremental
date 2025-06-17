@@ -1,7 +1,7 @@
 //wipe progress
-if (localStorage.getItem("version") !== "1.0.2") {
+if (localStorage.getItem("version") !== "1.0.3") {
   localStorage.clear(); 
-  localStorage.setItem("version", "1.0.2");
+  localStorage.setItem("version", "1.0.3");
 }
 
 const catchButton = document.querySelector(".fishing-area button");
@@ -15,6 +15,7 @@ let purchasedUpgrades = {};
 let selectedCategory = "rods";
 let multiplier = 1;
 let canUseLures = false;
+let inventoryContainer;
 
 const INVENTORY_SIZE = 42;
 
@@ -27,7 +28,7 @@ let shop = {
         name: 'Common Fishing Rod',
         image: 'resources/CommonFishRod.png',
         price: 50,
-        description: 'Catch time decreased by 1 second',
+        description: 'Catching fish will be easier',
         onClick: () => {
           duration -= 1000;
 
@@ -197,9 +198,9 @@ function updateShopCategoryContent(){
   shop[selectedCategory].items.forEach(item => {
     if (purchasedUpgrades[item.name]) return;
 
-    const categoryItem = document.createElement("div");
-    categoryItem.className = "item";
-    categoryItem.id = item.name;
+    const itemContainer = document.createElement("div");
+    itemContainer.className = "item";
+    itemContainer.id = item.name
 
     const itemImage = document.createElement("img");
     itemImage.className = "image";
@@ -208,27 +209,26 @@ function updateShopCategoryContent(){
     const itemDescriptionContainer = document.createElement("div");
     itemDescriptionContainer.className = "description-container";
 
-    const itemName = document.createElement("div");
-    itemName.className = "name";
-    itemName.textContent = item.name;
-
     const itemDescription = document.createElement("div");
     itemDescription.className = "description";
     itemDescription.textContent = item.description;
+
+    const itemName = document.createElement("div");
+    itemName.className = "name";
+    itemName.textContent = item.name;
 
     const itemPrice = document.createElement("div");
     itemPrice.className = "price";
     itemPrice.textContent = `$${item.price}`;
 
-    categoryItem.appendChild(itemImage);
-    categoryItem.appendChild(itemDescriptionContainer);
-    itemDescriptionContainer.appendChild(itemName)
+    itemContainer.appendChild(itemImage);
+    itemContainer.appendChild(itemDescriptionContainer);
+    itemDescriptionContainer.appendChild(itemName);
     itemDescriptionContainer.appendChild(itemDescription);
-    categoryItem.appendChild(itemPrice);
+    itemDescriptionContainer.appendChild(itemPrice);
+    categoryItems.appendChild(itemContainer);
 
-    categoryItems.appendChild(categoryItem);
-
-    itemPrice.addEventListener("click", () => {
+    itemContainer.addEventListener("click", () => {
       buyItem(item.name);
     });
   });
@@ -242,11 +242,22 @@ function updateInventoryContent() {
 
     const itemContainer = document.createElement("div");
     itemContainer.className = "item-container";
+    itemContainer.id = fish;
 
     const fishIcon = document.createElement("img");
     fishIcon.src = `resources/${fish}.png`;
-    fishIcon.title = `${fish}\nValue: $${fishValues[fish]}`;
     fishIcon.className = "fish-icon";
+
+    const itemDescriptionContainer = document.createElement("div");
+    itemDescriptionContainer.className = "description-container";
+
+    const itemName = document.createElement("div");
+    itemName.className = "name";
+    itemName.textContent = fish;
+
+    const itemPrice = document.createElement("div");
+    itemPrice.className = "price";
+    itemPrice.textContent = `$${fishValues[fish]}`;
 
     const fishAmmount = document.createElement("span");
     fishAmmount.className = "fish-count";
@@ -254,6 +265,10 @@ function updateInventoryContent() {
 
     itemContainer.appendChild(fishIcon);
     itemContainer.appendChild(fishAmmount);
+    itemContainer.appendChild(itemDescriptionContainer);
+    itemDescriptionContainer.appendChild(itemName);
+    // itemDescriptionContainer.appendChild(itemDescription);
+    itemDescriptionContainer.appendChild(itemPrice);
     inventoryList.appendChild(itemContainer);
 
     itemContainer.addEventListener("click", () => {
@@ -348,20 +363,27 @@ function buyItem(itemName) {
 
 function selectCategory(p_category){
   if(p_category == "lures" && !canUseLures){
-    catchMessage.innerHTML = "You can not use lures yet!";
-    catchMessage.style.opacity = 1;
+    categoryItems.style.display = 'flex';
+    categoryItems.innerHTML = '';
+    const wipMessage = document.createElement("div");
+    wipMessage.textContent = "Unlock lures by buying the Uncommon Fishing Rod";
+    wipMessage.style = "text-align: center; font-size: 1.2rem; background-color: #3d3012; color: #ffffff; border-radius: 15px; padding: 1rem; font-weight: 500; opacity: 0.6";
+    categoryItems.appendChild(wipMessage);
+
   }
   //WIP MESSAGE FOR BAITS CATEGORY (DELETE WHEN IMPLEMENTED)
   else if(p_category == "baits"){
+    categoryItems.style.display = 'flex';
     categoryItems.innerHTML = '';
     const wipMessage = document.createElement("div");
     wipMessage.textContent = "work in progress";
-    wipMessage.style = "text-align: center; font-size: 2rem; background-color: #f1d384; color: #000000; border-radius: 15px; padding: 1rem;";
+    wipMessage.style = "text-align: center; font-size: 1.2rem; background-color: #3d3012; color: #ffffff; border-radius: 15px; padding: 1rem; font-weight: 500; opacity: 0.6";
     categoryItems.appendChild(wipMessage);
   }
   /////////////////////////////////////////////////////////
   else{
     selectedCategory = p_category;
+    categoryItems.style.display = 'grid';
     updateShopCategoryContent();
   }
 }
@@ -399,7 +421,6 @@ function loadProgress() {
   }
 
   catchMessage.style.opacity = 0;
-  fishImage.style.opacity = 0;
 }
 
 function resetProgress() {
@@ -457,7 +478,7 @@ function listShop(){
 }
 
 function listInventory(){
-  const inventoryContainer = document.querySelector(".inventory");
+  inventoryContainer = document.querySelector(".inventory");
   inventoryContainer.innerHTML = '';
 
   const inventoryTopSection = document.createElement("div");
