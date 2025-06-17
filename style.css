@@ -77,13 +77,8 @@ body, html{
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-image: url('resources/upgradesbg.png');
-  background-position-y: -10px;
-  background-position-x: -15px;
-  background-size: cover;
-  image-rendering: pixelated;
-  background-repeat: no-repeat;
-  background-size: 140% 140%;
+  background: #966e45;
+  background: linear-gradient(90deg, rgba(150, 110, 69, 1) 0%, rgba(173, 127, 81, 1) 50%, rgba(150, 110, 69, 1) 100%);
   border-radius: 1rem;
   border: 6px solid #3d3012;
   padding: 1rem;
@@ -121,42 +116,55 @@ body, html{
 }
 
 .shop .item-list{
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 15%);
+  gap: 5px;
 }
 
 .shop .item-list .item{
   display: flex;
   align-items: center;
-  height: 5.5rem;
-  border-radius: 15px;
-  gap: 0.5rem;
-  font-weight: 500;
-  background-color: #6c4c34;
-  border: 4px solid #3d3012;
+  justify-content: center;
+  background-color: #9b6d4b;
+  border: 0.3vw solid #3d3012;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+  cursor: pointer;
 }
 
 .shop .item-list .item .image{
   height: 100%;
+  width: 100%;
   image-rendering: pixelated;
-  padding: 1rem;
 }
 
 .shop .item-list .item .description-container{
+  position: absolute;
+  display: none;
+  z-index: 1;
+  top: 80%;
+  left: 50%;
+  white-space: nowrap;
+  background: rgba(6,31,56, 0.95);
+  border: 2px solid #eeeeee;
+  padding: 10px;
+  width: fit-content;
+  min-width: 13rem;
+  border-radius: 5px;
+}
+
+.shop .item-list .item:hover .description-container{
   display: flex;
-  height: 80%;
-  width: 60%;
   flex-direction: column;
-  flex-grow: 1;
-  gap: 0.3rem;
+  gap: 5px;
 }
 
 .shop .item-list .item .description-container .name{
   border-radius: 15px;
-  text-align: center;
+  font-weight: 500;
 
-  background-color: #A0A0A0;
   color: #000000;
 
   font-size: clamp(1rem, 1.1vw, 1.2rem);
@@ -166,14 +174,18 @@ body, html{
   font-size: clamp(0.9rem, 1vw, 1.1rem);
 }
 
+.shop .item-list .item .description-container .price{
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  font-weight: 500;
+  color: #3e9c35;
+}
+
 #Common\ Fishing\ Rod .name{
-  background-color: #A0A0A0;
-  color: #000000;
+  color: #A0A0A0;
 }
 
 #Uncommon\ Fishing\ Rod .name{
-  background-color: #afcfee;
-  color: #000000;
+  color: #afcfee;
 }
 
 #Uncommon\ Fishing\ Rod .image{
@@ -181,7 +193,7 @@ body, html{
 }
 
 #Rare\ Fishing\ Rod .name{
-  background-color: #c767bc;
+  color: #c767bc;
 }
 
 #Rare\ Fishing\ Rod .image{
@@ -189,32 +201,15 @@ body, html{
 }
 
 #Starter\ Lure .name{
-  background-color: #0464d3;
-  color: #ffffff;  
+  color: #0464d3; 
 }
 
 #Lucky\ Lure .name{
-  background-color: #ffca0c;
-  color: #000000;
+  color: #ffca0c;
 }
 
-.shop .item-list .item .price{
-  display: flex;
-  height: 100%;
-  width: 20%;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1rem;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 500;
-  background-color: #9b6d4b;
-  border-radius: 15px;
-}
-
-.shop .item-list .item .price:hover{
-  cursor: pointer;
-  opacity: 0.9;
-  background-color: #f1cf78;
+#Value\ Lure .name{
+  color: #a36acc;
 }
 
 .fishing-area{
@@ -331,6 +326,7 @@ button:hover {
 .inventory{
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 1rem;
   height: 100%;
   width: 34%;
@@ -341,7 +337,8 @@ button:hover {
   border-radius: 1rem;
   font-size: clamp(1.2rem, 1.5vw, 1.6rem);
   border: 6px solid #785f23;
-  overflow: auto;
+  overflow: visible;
+  z-index: 1;
 }
 
 .inventory .top-section{
@@ -357,7 +354,7 @@ button:hover {
 
 .inventory .inventory-list{
   display: grid;
-  justify-content: space-between;
+  justify-content: center;
   grid-template-columns: repeat(auto-fill, 15%);
   gap: 5px;
 }
@@ -368,10 +365,13 @@ button:hover {
   justify-content: center;
   position: relative;
   background-color: #fdc175;
-  border: 0.3rem solid #8f4212;
+  color: #ffffff;
+  border: 0.3vw solid #8f4212;
   box-sizing: border-box;
-  border-radius: 10px;
-  padding: 5px
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
 }
 
 .inventory .inventory-list .item-container:empty {
@@ -382,6 +382,42 @@ button:hover {
   content: '';
   display: block;
   padding-top: 100%;
+}
+
+.inventory .inventory-list .item-container .description-container{
+  position: absolute;
+  display: none;
+  z-index: 3;
+  top: 90%;
+  right: 20%;
+  white-space: nowrap;
+  background: rgba(6,31,56, 0.95);
+  border: 2px solid #eeeeee;
+  padding: 10px;
+  width: max-content;
+  min-width: 5rem;
+  border-radius: 5px;
+}
+
+.inventory .inventory-list .item-container:hover .description-container{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inventory .inventory-list .item-container .description-container .name{
+  font-weight: 500;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+}
+
+.inventory .inventory-list .item-container .description-container .price{
+  font-weight: 500;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  color: #3e9c35;
+}
+
+#Clownfish .name{
+  color: #f07f26;
 }
 
 .inventory .item-container .fish-icon{
@@ -401,7 +437,7 @@ button:hover {
   color: white;
   font-size: 1.35rem;
   border-radius: 4px;
-  z-index: 10;
+  z-index: 1;
   text-shadow:
     -2px -2px 0 black,
      2px -2px 0 black,
@@ -426,7 +462,7 @@ button:hover {
 }
 
 .end-screen button{
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   background-color: #ffffff;
   color: #000000;
 }
@@ -434,4 +470,24 @@ button:hover {
 img {
   max-width: 100%;
   display: block;
+}
+
+@media (max-width: 600px) {
+  body, html{
+    height: auto;
+    width: 100%;
+  }
+  .game{
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+  }
+
+  .shop,
+  .fishing-area,
+  .inventory {
+    min-width: 100%;
+    width: fit-content;
+    height: 650px;
+  }
 }
